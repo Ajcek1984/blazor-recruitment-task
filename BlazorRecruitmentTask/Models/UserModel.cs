@@ -13,5 +13,7 @@ namespace BlazorRecruitmentTask.Models
         public bool WasRecentlyDropped { get;set; }
 
         public bool IsSelected { get;set; }
+
+        public int Order { get;set; }
     }
 }

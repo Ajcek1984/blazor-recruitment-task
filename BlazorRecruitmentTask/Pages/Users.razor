@@ -3,6 +3,7 @@
 @using BlazorRecruitmentTask.Models
 @using BlazorRecruitmentTask.Services
 @using MudBlazor
+@using System.Diagnostics
 @inject UserService userService
 
 <PageTitle>Użytkownicy</PageTitle>
@@ -73,6 +74,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
+        foreach (var userGroup in users.GroupBy(u => u.Group)) {
+            var index = 0;
+            foreach (var user in userGroup)
+                user.Order = index++; 
+        }
     }
 
     private async void ItemDropped(MudItemDropInfo<UserModel> dropItem)
@@ -89,27 +95,34 @@ else
             history.Add(new HistoryEntryModel { Icon = newGroup.Icon, Message = $"Użytkownik {dropItem.Item.Name} został dodany do grupy {newGroup.Name}." });
 
         var usersToMove = users
-            .Where(u => u.IsSelected && ((currentGroup == null && u.Group == UserService.UnasssignedUsersGroup) || u.Group == currentGroup.Identifier))
+            .Where(u => u.IsSelected && ((currentGroup != null && u.Group == currentGroup.Identifier) || (currentGroup == null && u.Group == UserService.UnasssignedUsersGroup)))
             .Union(new[] { dropItem.Item })
             .Distinct()
             .ToArray();
 
-        await MoveToGroupAsync(usersToMove, dropItem.DropzoneIdentifier);
+        await MoveToGroupAsync(usersToMove, dropItem.DropzoneIdentifier, dropItem.IndexInZone);
     }
 
-    private async Task MoveToGroupAsync(IEnumerable<UserModel> users, string groupIdentifier)
+    private async Task MoveToGroupAsync(IEnumerable<UserModel> movedUsers, string groupIdentifier, int index)
     {
-        foreach (var user in users) {
+        var usersOnHigherIndexes = users.Where(u => u.Group == groupIdentifier && u.Order > index && !movedUsers.Contains(u)).ToArray();
+        foreach (var user in movedUsers) {
             user.Group = groupIdentifier;
             user.WasRecentlyDropped = true;
             user.IsSelected = false;
+            user.Order = index++;
+            //Debug.WriteLine($"Użytkownik {user.Name} ma pozycję {user.Order}.");
         }
+        foreach (var user in usersOnHigherIndexes)
+            user.Order = index++;
+
+        users = users.OrderBy(u => u.Group).ThenBy(u => u.Order).ToArray(); //Zapobiega samoczynnemu przestawianiu przy następnym refreshu
+        //dropContainer.Refresh();
         await Task.Delay(TimeSpan.FromSeconds(0.4));
-        foreach (var user in users)
+        foreach (var user in movedUsers)
         {
             user.WasRecentlyDropped = false;
         }
-
     }
 
     private void ItemPicked(MudDragAndDropItemTransaction<UserModel> dropItem)
