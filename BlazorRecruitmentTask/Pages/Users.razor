@@ -35,7 +35,7 @@ else
                 </div>
             </ChildContent>
             <ItemRenderer>
-                <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="() => SelectUser(context)">
+                <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="args => SelectUser(args, context)">
                         <div class="main-user-data p-2">
                             <div class="w-100 avatar-wrapper">
                                 <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
@@ -93,12 +93,14 @@ else
         dropItem.Item.WasRecentlyDropped = false;
     }
 
-    private async void SelectUser(UserModel user)
+    private async void SelectUser(MouseEventArgs args, UserModel user)
     {
-        foreach (var u in users)
-            u.IsSelected = false;
+        if (!args.ShiftKey) {
+            foreach (var u in users)
+                u.IsSelected = false;
+        }
 
-        user.IsSelected = true;
+        user.IsSelected = args.ShiftKey ? !user.IsSelected : true;
         dropContainer.Refresh();
     }
 }
