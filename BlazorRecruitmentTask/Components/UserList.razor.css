@@ -6,3 +6,20 @@
     padding-right: 0.6em;
     width: 100%;
 }
+
+.scrollable-list {
+    scrollbar-color: #ffffffff #ffffff33;
+    scrollbar-width: thin;
+}
+.user-list-panel {
+    flex: 1 1 auto;
+}
+
+.top-panel {
+    height:50vh;
+}
+
+.bottom-panel {
+    height: 50vh;
+    max-height: 50vh;
+}
