@@ -36,7 +36,7 @@ else
                 </div>
             </ChildContent>
             <ItemRenderer>
-                <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="args => SelectUser(args, context)">
+                <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "") @(context.Order % 2 != 0 ? "odd" : "")" @onclick="args => SelectUser(args, context)">
                 <div class="circle-icon">
                     <!--@context.Order-->
                     @if(context.Group == UserService.UnasssignedUsersGroup) {

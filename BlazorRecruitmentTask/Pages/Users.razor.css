@@ -13,6 +13,10 @@
     position: relative;
 }
 
+.user.selected {
+    background-color: gainsboro;
+}
+
 .avatar-wrapper {
     display: flex;
     align-items: center;
@@ -35,7 +39,7 @@
     font-size: .75em;
 }
 
-.selected .city {
+.odd .city {
     background-color: #6bc79d;
     color: #000;
 }
