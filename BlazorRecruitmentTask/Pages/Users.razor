@@ -12,7 +12,7 @@
 }
 else
 {
-    <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" ItemDropped="ItemUpdated">
+    <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" ItemDropped="ItemUpdated" ItemDraggingClass="user-dragging" DraggingClass="user-list-dragging" CanDropClass="user-list-can-drop">
             <ChildContent>
             <div class="row">
                 <div class="col-md-3">

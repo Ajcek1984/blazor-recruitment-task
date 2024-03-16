@@ -2,11 +2,34 @@
 @using MudBlazor
 
 <div class="component-container">
-    <MudDropZone T="User" Identifier="Group1" Class="user-list" style="min-height: 200px;">
-    </MudDropZone>
+    <div class="d-flex flex-row">
+        @foreach (var group in groups)
+        {
+            <MudButton Variant="Variant.Filled" OnClick="() => {selectedGroup = group;}">@group.Name</MudButton>
+        }
+    </div>
+    @if (selectedGroup != null) {
+        <MudDropZone T="User" Identifier="@selectedGroup.Identifier" Class="user-list" AllowReorder=true>
+        </MudDropZone>
+    }
 </div>
 
 
 @code {
+    private UserGroup[] groups = new[]
+    {
+            new UserGroup { Identifier = "Group1", Name="Grupa 1" },
+            new UserGroup { Identifier = "Group2", Name="Grupa 2" },
+            new UserGroup { Identifier = "Group3", Name="Grupa 3" },
+            new UserGroup { Identifier = "Group4", Name="Grupa 4" },
+            new UserGroup { Identifier = "Group5", Name="Grupa 5" }
+    };
 
+    private UserGroup? selectedGroup;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        selectedGroup = groups[0];
+    }
 }

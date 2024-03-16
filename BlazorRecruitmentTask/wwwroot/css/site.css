@@ -77,4 +77,15 @@ a, .btn-link {
 .user-list {
     display: flex;
     flex-wrap: wrap;
+    min-height: 200px;
+}
+
+/*
+.mud-drop-zone.user-list-can-drop .mud-drop-item {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+*/
+
+.mud-drop-zone.user-list .mud-dropitem-placeholder {
+    width: 128px;
 }
