@@ -9,5 +9,7 @@ namespace BlazorRecruitmentTask.Data
         public string? Photo { get; set; }
 
         public string? Group { get;set; }
+
+        public bool WasRecentlyDropped { get;set; }
     }
 }

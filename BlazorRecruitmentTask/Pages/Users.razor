@@ -12,7 +12,12 @@
 }
 else
 {
-    <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" ItemDropped="ItemUpdated" ItemDraggingClass="user-dragging" DraggingClass="user-list-dragging" CanDropClass="user-list-can-drop">
+    <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
+        ItemDropped="ItemDropped" 
+        ItemPicked="ItemPicked"
+        ItemDraggingClass="user-dragging" 
+        DraggingClass="user-list-dragging" 
+        CanDropClass="user-list-can-drop">
             <ChildContent>
             <div class="row">
                 <div class="col-md-3">
@@ -25,7 +30,7 @@ else
 
             </ChildContent>
             <ItemRenderer>
-                    <div class="user">
+            <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "")">
                         <div class="main-user-data p-2">
                             <div class="w-100 avatar-wrapper">
                                 <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
@@ -53,8 +58,22 @@ else
         users = await userService.GetUsersAsync();
     }
 
-    private void ItemUpdated(MudItemDropInfo<User> dropItem)
+    private void ItemDropped(MudItemDropInfo<User> dropItem)
     {
+        if (dropItem.Item == null)
+            return;
+
         dropItem.Item.Group = dropItem.DropzoneIdentifier;
+        dropItem.Item.WasRecentlyDropped = true;
+        foreach (var user in users.Where(u => u != dropItem.Item))
+            user.WasRecentlyDropped = false;
+    }
+
+    private void ItemPicked(MudDragAndDropItemTransaction<User> dropItem)
+    {
+        if (dropItem.Item == null)
+            return;
+
+        dropItem.Item.WasRecentlyDropped = false;
     }
 }
