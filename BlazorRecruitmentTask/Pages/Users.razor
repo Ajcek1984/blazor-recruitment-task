@@ -58,15 +58,15 @@ else
         users = await userService.GetUsersAsync();
     }
 
-    private void ItemDropped(MudItemDropInfo<User> dropItem)
+    private async void ItemDropped(MudItemDropInfo<User> dropItem)
     {
         if (dropItem.Item == null)
             return;
 
         dropItem.Item.Group = dropItem.DropzoneIdentifier;
         dropItem.Item.WasRecentlyDropped = true;
-        foreach (var user in users.Where(u => u != dropItem.Item))
-            user.WasRecentlyDropped = false;
+        await Task.Delay(TimeSpan.FromSeconds(0.4));
+        dropItem.Item.WasRecentlyDropped = false;
     }
 
     private void ItemPicked(MudDragAndDropItemTransaction<User> dropItem)
