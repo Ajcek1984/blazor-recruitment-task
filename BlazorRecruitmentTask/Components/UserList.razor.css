@@ -19,10 +19,7 @@
     align-items: center;
 }
 
-.user-list {
-    display: flex;
-    flex-wrap: wrap;
-}
+
 
 .main-user-data {
     flex-grow: 1;

@@ -73,3 +73,8 @@ a, .btn-link {
     border-radius: 8px;
     padding: 1.8em;
 }
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -7,5 +7,7 @@ namespace BlazorRecruitmentTask.Data
         public string? City { get; set; }
 
         public string? Photo { get; set; }
+
+        public string? Group { get;set; }
     }
 }

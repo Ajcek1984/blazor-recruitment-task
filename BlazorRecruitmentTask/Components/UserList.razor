@@ -10,32 +10,36 @@
 }
 else
 {
-    <div class="user-list">
-        @foreach (var user in users)
-        {
-            <div class="user">
-                <div class="main-user-data p-2">
-                    <div class="w-100 avatar-wrapper">
-                        <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
-                            <MudImage Src="@user.Photo"></MudImage>
-                        </MudAvatar>
+         <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)">
+            <ChildContent> 
+                <MudDropZone T="User" Identifier="@UserService.UnasssignedUsersGroup" Class="user-list"> 
+                </MudDropZone>
+            </ChildContent>
+            <ItemRenderer>
+                    <div class="user">
+                        <div class="main-user-data p-2">
+                            <div class="w-100 avatar-wrapper">
+                                <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
+                                    <MudImage Src="@context.Photo"></MudImage>
+                                </MudAvatar>
+                            </div>
+                            <div class="text-center m-2">
+                                @context.Name
+                            </div>
+                        </div>
+                        <div class="text-center city p-2">
+                            <div class="mx-auto">
+                                <div class="d-flex flex-row align-items-center"><MudIcon Icon="@Icons.Material.Outlined.LocationOn" Size="Size.Small"></MudIcon> @context.City</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center m-2">
-                        @user.Name
-                    </div>
-                </div>
-                <div class="text-center city p-2">
-                    <div class="mx-auto">
-                        <div class="d-flex flex-row align-items-center"><MudIcon Icon="@Icons.Material.Outlined.LocationOn" Size="Size.Small"></MudIcon> @user.City</div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+            </ItemRenderer>
+        </MudDropContainer>
+ 
 }
 
 @code {
-    private User[]? users = null;
+    private List<User>? users = null;
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
