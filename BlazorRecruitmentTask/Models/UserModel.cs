@@ -11,5 +11,7 @@ namespace BlazorRecruitmentTask.Models
         public string? Group { get;set; }
 
         public bool WasRecentlyDropped { get;set; }
+
+        public bool IsSelected { get;set; }
     }
 }

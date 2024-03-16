@@ -13,7 +13,8 @@
 }
 else
 {
-    <MudDropContainer 
+    <MudDropContainer
+        @ref="dropContainer"
         T="UserModel" 
         Items="users" 
         ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
@@ -34,7 +35,7 @@ else
                 </div>
             </ChildContent>
             <ItemRenderer>
-            <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "")">
+                <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="() => SelectUser(context)">
                         <div class="main-user-data p-2">
                             <div class="w-100 avatar-wrapper">
                                 <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
@@ -58,6 +59,8 @@ else
 @code {
     private UserModel[]? users = null;
     private readonly List<HistoryEntryModel> history = new List<HistoryEntryModel>();
+    private MudDropContainer<UserModel> dropContainer;
+
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
@@ -88,5 +91,14 @@ else
             return;
 
         dropItem.Item.WasRecentlyDropped = false;
+    }
+
+    private async void SelectUser(UserModel user)
+    {
+        foreach (var u in users)
+            u.IsSelected = false;
+
+        user.IsSelected = true;
+        dropContainer.Refresh();
     }
 }

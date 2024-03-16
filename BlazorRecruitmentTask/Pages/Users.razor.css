@@ -26,11 +26,17 @@
 .city {
     bottom: 0px;
     width: 100%;
-    background-color: #6bc79d;
+    background-color: #32293f;
+    color: #fff;
     display: flex;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     font-size: .75em;
+}
+
+.selected .city {
+    background-color: #6bc79d;
+    color: #000;
 }
 
 .user-dragging {
