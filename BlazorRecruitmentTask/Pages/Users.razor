@@ -88,10 +88,28 @@ else
         if (newGroup != null)
             history.Add(new HistoryEntryModel { Icon = newGroup.Icon, Message = $"Użytkownik {dropItem.Item.Name} został dodany do grupy {newGroup.Name}." });
 
-        dropItem.Item.Group = dropItem.DropzoneIdentifier;
-        dropItem.Item.WasRecentlyDropped = true;
+        var usersToMove = users
+            .Where(u => u.IsSelected && ((currentGroup == null && u.Group == UserService.UnasssignedUsersGroup) || u.Group == currentGroup.Identifier))
+            .Union(new[] { dropItem.Item })
+            .Distinct()
+            .ToArray();
+
+        await MoveToGroupAsync(usersToMove, dropItem.DropzoneIdentifier);
+    }
+
+    private async Task MoveToGroupAsync(IEnumerable<UserModel> users, string groupIdentifier)
+    {
+        foreach (var user in users) {
+            user.Group = groupIdentifier;
+            user.WasRecentlyDropped = true;
+            user.IsSelected = false;
+        }
         await Task.Delay(TimeSpan.FromSeconds(0.4));
-        dropItem.Item.WasRecentlyDropped = false;
+        foreach (var user in users)
+        {
+            user.WasRecentlyDropped = false;
+        }
+
     }
 
     private void ItemPicked(MudDragAndDropItemTransaction<UserModel> dropItem)
