@@ -38,6 +38,7 @@ else
             <ItemRenderer>
                 <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="args => SelectUser(args, context)">
                 <div class="circle-icon">
+                    <!--@context.Order-->
                     @if(context.Group == UserService.UnasssignedUsersGroup) {
                         <MudIcon Size="Size.Small" Icon="@Icons.Material.Outlined.Circle"></MudIcon>
                     }
@@ -105,20 +106,25 @@ else
 
     private async Task MoveToGroupAsync(IEnumerable<UserModel> movedUsers, string groupIdentifier, int index)
     {
-        var usersOnHigherIndexes = users.Where(u => u.Group == groupIdentifier && u.Order > index && !movedUsers.Contains(u)).ToArray();
+        var i = 0;
+        foreach (var user in users.Where(u => u.Group == groupIdentifier && !movedUsers.Contains(u)))
+            user.Order = i++;
+
+        var usersOnHigherIndexes = users.Where(u => u.Group == groupIdentifier && u.Order >= index && !movedUsers.Contains(u)).ToArray();
+
         foreach (var user in movedUsers) {
             user.Group = groupIdentifier;
             user.WasRecentlyDropped = true;
             user.IsSelected = false;
             user.Order = index++;
-            //Debug.WriteLine($"Użytkownik {user.Name} ma pozycję {user.Order}.");
         }
         foreach (var user in usersOnHigherIndexes)
             user.Order = index++;
 
         users = users.OrderBy(u => u.Group).ThenBy(u => u.Order).ToArray(); //Zapobiega samoczynnemu przestawianiu przy następnym refreshu
-        //dropContainer.Refresh();
+        
         await Task.Delay(TimeSpan.FromSeconds(0.4));
+        dropContainer.Refresh();
         foreach (var user in movedUsers)
         {
             user.WasRecentlyDropped = false;
