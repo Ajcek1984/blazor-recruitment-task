@@ -122,7 +122,8 @@ else
             user.Order = index++;
 
         users = users.OrderBy(u => u.Group).ThenBy(u => u.Order).ToArray(); //Zapobiega samoczynnemu przestawianiu przy następnym refreshu
-        
+        await Task.Delay(10);
+        dropContainer.Refresh();
         await Task.Delay(TimeSpan.FromSeconds(0.4));
         dropContainer.Refresh();
         foreach (var user in movedUsers)
