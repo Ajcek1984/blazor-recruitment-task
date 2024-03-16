@@ -3,5 +3,7 @@
 ################################################################################
 
 /.vs
-/BlazorRecruitmentTask/.vs/BlazorRecruitmentTask/v17
 /BlazorRecruitmentTask/obj
+/BlazorRecruitmentTask/.vs
+/BlazorRecruitmentTask/bin/Debug/net7.0
+/BlazorRecruitmentTask/bin/Release/net7.0
