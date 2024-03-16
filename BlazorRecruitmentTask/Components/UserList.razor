@@ -1,12 +1,10 @@
-﻿@page "/fetchdata"
-@using BlazorRecruitmentTask.Data
+﻿@using BlazorRecruitmentTask.Data
 @inject UserService userService
 
-<PageTitle>Użytkownicy</PageTitle>
-
+<h3>Użytkownicy</h3>
 @if (users == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Ładowanie...</em></p>
 }
 else
 {
@@ -18,9 +16,9 @@ else
 
 @code {
     private User[]? users = null;
-
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
     }
 }
+
