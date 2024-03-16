@@ -36,7 +36,16 @@ else
             </ChildContent>
             <ItemRenderer>
                 <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "") @(context.IsSelected ? "selected" : "")" @onclick="args => SelectUser(args, context)">
-                        <div class="main-user-data p-2">
+                <div class="circle-icon">
+                    @if(context.Group == UserService.UnasssignedUsersGroup) {
+                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Outlined.Circle"></MudIcon>
+                    }
+                    else
+                    {
+                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Outlined.Star"></MudIcon>
+                    }
+                </div>
+                <div class="main-user-data p-2">
                             <div class="w-100 avatar-wrapper">
                                 <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
                                     <MudImage Src="@context.Photo"></MudImage>
