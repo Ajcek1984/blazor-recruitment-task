@@ -1,0 +1,45 @@
+﻿.groups-container {
+    min-height: 64px;
+}
+
+::deep .group-button {
+    border-radius: 8px;
+    color: #000;
+    background-color: #fff;
+    min-height: 32px;
+    transition: min-height 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+::deep .group-button .mud-icon-root {
+   margin-right: 0.4em;
+}
+
+@keyframes bounce {
+    0% {
+        min-height: 64px;
+    }
+
+    30% {
+        min-height: 48px;
+    }
+
+    60% {
+        min-height: 56px;
+    }
+
+    100% {
+        min-height: 32px;
+    }
+
+
+}
+
+::deep .group-button.selected {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    animation-name: bounce;
+    min-height: 64px;
+    background-color: #6bc79d;
+}

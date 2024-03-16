@@ -88,4 +88,8 @@ a, .btn-link {
 
 .mud-drop-zone.user-list .mud-dropitem-placeholder {
     width: 128px;
+    margin-right: 2em;
+    margin-bottom: 2em;
+    height: 180px;
+    max-height: 180px;
 }
