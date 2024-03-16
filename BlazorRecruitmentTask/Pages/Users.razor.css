@@ -14,14 +14,13 @@
 }
 
 .user.selected {
-    background-color: gainsboro;
+    background-color: lightgray;
 }
 
 .avatar-wrapper {
     display: flex;
     align-items: center;
 }
-
 
 
 .main-user-data {
