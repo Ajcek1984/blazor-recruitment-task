@@ -1,1 +1,8 @@
-﻿
+﻿.history-entry {
+    background-color: #ffffff33;
+    border-radius: 16px;
+    padding: 0.4em;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    width: 100%;
+}

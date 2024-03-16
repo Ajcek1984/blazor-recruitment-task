@@ -1,9 +1,11 @@
 ﻿@using BlazorRecruitmentTask.Models
+@using BlazorRecruitmentTask.Services
 @using MudBlazor
+@inject UserService userService
 
 <div class="component-container">
     <div class="groups-container d-flex flex-row mb-6 align-items-start">
-        @foreach (var group in groups)
+        @foreach (var group in userService.Groups)
         {
             <MudButton Variant="Variant.Filled" OnClick="() => {selectedGroup = group; StateHasChanged();}" Class="@GetGroupButtonClass(group)">
                 <div class="d-flex flex-row align-items-center"><MudIcon Icon="@group.Icon()" Size="Size.Small"></MudIcon> @group.Name</div>
@@ -18,21 +20,14 @@
 
 
 @code {
-    private UserGroupModel[] groups = new[]
-    {
-            new UserGroupModel { Identifier = "Group1", Name="Grupa 1", Icon= () => Icons.Material.Filled.Star },
-            new UserGroupModel { Identifier = "Group2", Name="Grupa 2", Icon= () => Icons.Material.Filled.Face2 },
-            new UserGroupModel { Identifier = "Group3", Name="Grupa 3", Icon= () => Icons.Material.Filled.Face },
-            new UserGroupModel { Identifier = "Group4", Name="Grupa 4", Icon= () => Icons.Material.Filled.ArrowDropUp },
-            new UserGroupModel { Identifier = "Group5", Name="Grupa 5", Icon= () => Icons.Material.Filled.Square }
-    };
+
 
     private UserGroupModel? selectedGroup;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        selectedGroup = groups[0];
+        selectedGroup = userService.Groups[0];
     }
 
     private string GetGroupButtonClass(UserGroupModel group) => selectedGroup == group ? "group-button selected" : "group-button";

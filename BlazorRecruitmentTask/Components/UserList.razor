@@ -6,5 +6,16 @@
     <h3>Użytkownicy</h3>
     <MudDropZone T="UserModel" Identifier="@UserService.UnasssignedUsersGroup" AllowReorder=true Class="user-list mt-6">
     </MudDropZone>
+    <MudDivider />
+    <div class="mt-4">
+    @foreach (var entry in History)
+    {
+        <div class="history-entry mb-2">@entry.Message</div>
+    }
+    </div>
 </div>
 
+@code {
+    [Parameter]
+    public IEnumerable<HistoryEntryModel> History { get; set; } = Array.Empty<HistoryEntryModel>();
+}

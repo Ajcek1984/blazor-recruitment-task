@@ -22,7 +22,7 @@ else
             <ChildContent>
             <div class="row">
                 <div class="col-md-3">
-                    <UserList></UserList>
+                    <UserList History="history"></UserList>
                 </div>
                 <div class="col-md-9">
                     <UserGroups></UserGroups>
@@ -54,6 +54,7 @@ else
 
 @code {
     private UserModel[]? users = null;
+    private readonly List<HistoryEntryModel> history = new List<HistoryEntryModel>();
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
@@ -63,6 +64,14 @@ else
     {
         if (dropItem.Item == null)
             return;
+
+        var currentGroup = userService.Groups.FirstOrDefault(g => g.Identifier == dropItem.Item.Group);
+        if (currentGroup != null)
+            history.Add(new HistoryEntryModel { Icon = currentGroup.Icon, Message = $"Użytkownik {dropItem.Item.Name} został usunięty z grupy {currentGroup.Name}." });
+
+        var newGroup = userService.Groups.FirstOrDefault(g => g.Identifier == dropItem.DropzoneIdentifier);
+        if (newGroup != null)
+            history.Add(new HistoryEntryModel { Icon = newGroup.Icon, Message = $"Użytkownik {dropItem.Item.Name} został dodany do grupy {newGroup.Name}." });
 
         dropItem.Item.Group = dropItem.DropzoneIdentifier;
         dropItem.Item.WasRecentlyDropped = true;
