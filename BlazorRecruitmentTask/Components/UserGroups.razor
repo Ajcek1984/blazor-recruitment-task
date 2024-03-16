@@ -1,5 +1,11 @@
-﻿<div class="component-container">
+﻿@using BlazorRecruitmentTask.Data
+@using MudBlazor
+
+<div class="component-container">
+    <MudDropZone T="User" Identifier="Group1" Class="user-list" style="min-height: 200px;">
+    </MudDropZone>
 </div>
+
 
 @code {
 
