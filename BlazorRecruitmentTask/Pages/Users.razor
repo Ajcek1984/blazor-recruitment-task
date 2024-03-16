@@ -13,22 +13,25 @@
 }
 else
 {
-    <MudDropContainer T="UserModel" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
+    <MudDropContainer 
+        T="UserModel" 
+        Items="users" 
+        ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
         ItemDropped="ItemDropped" 
         ItemPicked="ItemPicked"
         ItemDraggingClass="user-dragging" 
         DraggingClass="user-list-dragging" 
+        Class="h-100 pb-8"
         CanDropClass="user-list-can-drop">
             <ChildContent>
-            <div class="row">
-                <div class="col-md-3">
-                    <UserList History="history"></UserList>
+                <div class="row h-100">
+                    <div class="col-md-12 col-lg-3 col-xl-4">
+                        <UserList History="history"></UserList>
+                    </div>
+                    <div class="col-md-12 col-lg-9 col-xl-8">
+                        <UserGroups></UserGroups>
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <UserGroups></UserGroups>
-                </div>
-            </div>
-
             </ChildContent>
             <ItemRenderer>
             <div class="user @(context.WasRecentlyDropped ? "user-dropped" : "")">

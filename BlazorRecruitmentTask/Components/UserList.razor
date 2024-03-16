@@ -2,16 +2,20 @@
 @using BlazorRecruitmentTask.Services
 @using MudBlazor
 
-<div class="component-container">
-    <h3>Użytkownicy</h3>
-    <MudDropZone T="UserModel" Identifier="@UserService.UnasssignedUsersGroup" AllowReorder=true Class="user-list mt-6">
-    </MudDropZone>
-    <MudDivider />
-    <div class="mt-4">
-    @foreach (var entry in History)
-    {
-        <div class="history-entry mb-2">@entry.Message</div>
-    }
+<div class="component-container h-100 d-flex flex-column">
+    <div class="h-50">
+        <h3>Użytkownicy</h3>
+        <MudDropZone T="UserModel" Identifier="@UserService.UnasssignedUsersGroup" AllowReorder=true Class="user-list mt-6">
+        </MudDropZone>
+    </div>
+    <div class="overflow-auto h-50">
+        <MudDivider Class="mb-4" />
+        @foreach (var entry in History)
+        {
+            <div class="history-entry mb-2">
+                <div class="d-flex flex-row align-items-center"><MudIcon Icon="@entry.Icon()" Size="Size.Small" Class="mr-2"></MudIcon> @entry.Message</div>
+            </div>
+        }
     </div>
 </div>
 
