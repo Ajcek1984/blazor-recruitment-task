@@ -1,6 +1,6 @@
-﻿namespace BlazorRecruitmentTask.Data
+﻿namespace BlazorRecruitmentTask.Models
 {
-    public class UserGroup
+    public class UserGroupModel
     {
         public required string Identifier { get;set; }
 

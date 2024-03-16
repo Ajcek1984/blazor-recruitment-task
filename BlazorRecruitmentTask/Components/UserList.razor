@@ -1,9 +1,10 @@
-﻿@using BlazorRecruitmentTask.Data
+﻿@using BlazorRecruitmentTask.Models
+@using BlazorRecruitmentTask.Services
 @using MudBlazor
 
 <div class="component-container">
     <h3>Użytkownicy</h3>
-    <MudDropZone T="User" Identifier="@UserService.UnasssignedUsersGroup" AllowReorder=true Class="user-list mt-6">
+    <MudDropZone T="UserModel" Identifier="@UserService.UnasssignedUsersGroup" AllowReorder=true Class="user-list mt-6">
     </MudDropZone>
 </div>
 

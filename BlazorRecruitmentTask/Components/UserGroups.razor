@@ -1,4 +1,4 @@
-﻿@using BlazorRecruitmentTask.Data
+﻿@using BlazorRecruitmentTask.Models
 @using MudBlazor
 
 <div class="component-container">
@@ -11,23 +11,23 @@
         }
     </div>
     @if (selectedGroup != null) {
-        <MudDropZone T="User" Identifier="@selectedGroup.Identifier" Class="user-list" AllowReorder=true>
+        <MudDropZone T="UserModel" Identifier="@selectedGroup.Identifier" Class="user-list" AllowReorder=true>
         </MudDropZone>
     }
 </div>
 
 
 @code {
-    private UserGroup[] groups = new[]
+    private UserGroupModel[] groups = new[]
     {
-            new UserGroup { Identifier = "Group1", Name="Grupa 1", Icon= () => Icons.Material.Filled.Star },
-            new UserGroup { Identifier = "Group2", Name="Grupa 2", Icon= () => Icons.Material.Filled.Face2 },
-            new UserGroup { Identifier = "Group3", Name="Grupa 3", Icon= () => Icons.Material.Filled.Face },
-            new UserGroup { Identifier = "Group4", Name="Grupa 4", Icon= () => Icons.Material.Filled.ArrowDropUp },
-            new UserGroup { Identifier = "Group5", Name="Grupa 5", Icon= () => Icons.Material.Filled.Square }
+            new UserGroupModel { Identifier = "Group1", Name="Grupa 1", Icon= () => Icons.Material.Filled.Star },
+            new UserGroupModel { Identifier = "Group2", Name="Grupa 2", Icon= () => Icons.Material.Filled.Face2 },
+            new UserGroupModel { Identifier = "Group3", Name="Grupa 3", Icon= () => Icons.Material.Filled.Face },
+            new UserGroupModel { Identifier = "Group4", Name="Grupa 4", Icon= () => Icons.Material.Filled.ArrowDropUp },
+            new UserGroupModel { Identifier = "Group5", Name="Grupa 5", Icon= () => Icons.Material.Filled.Square }
     };
 
-    private UserGroup? selectedGroup;
+    private UserGroupModel? selectedGroup;
 
     protected override void OnInitialized()
     {
@@ -35,5 +35,5 @@
         selectedGroup = groups[0];
     }
 
-    private string GetGroupButtonClass(UserGroup group) => selectedGroup == group ? "group-button selected" : "group-button";
+    private string GetGroupButtonClass(UserGroupModel group) => selectedGroup == group ? "group-button selected" : "group-button";
 }

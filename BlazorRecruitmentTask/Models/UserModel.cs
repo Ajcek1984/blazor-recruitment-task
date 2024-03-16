@@ -1,6 +1,6 @@
-namespace BlazorRecruitmentTask.Data
+namespace BlazorRecruitmentTask.Models
 {
-    public class User
+    public class UserModel
     {
         public string? Name { get; set; }
 

@@ -1,4 +1,4 @@
-using BlazorRecruitmentTask.Data;
+using BlazorRecruitmentTask.Services;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);

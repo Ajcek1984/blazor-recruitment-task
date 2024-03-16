@@ -1,6 +1,7 @@
 ﻿@page "/users"
 @using BlazorRecruitmentTask.Components
-@using BlazorRecruitmentTask.Data
+@using BlazorRecruitmentTask.Models
+@using BlazorRecruitmentTask.Services
 @using MudBlazor
 @inject UserService userService
 
@@ -12,7 +13,7 @@
 }
 else
 {
-    <MudDropContainer T="User" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
+    <MudDropContainer T="UserModel" Items="users" ItemsSelector="@((item,dropzone) => item.Group == dropzone)" 
         ItemDropped="ItemDropped" 
         ItemPicked="ItemPicked"
         ItemDraggingClass="user-dragging" 
@@ -52,13 +53,13 @@ else
 }
 
 @code {
-    private User[]? users = null;
+    private UserModel[]? users = null;
     protected override async Task OnInitializedAsync()
     {
         users = await userService.GetUsersAsync();
     }
 
-    private async void ItemDropped(MudItemDropInfo<User> dropItem)
+    private async void ItemDropped(MudItemDropInfo<UserModel> dropItem)
     {
         if (dropItem.Item == null)
             return;
@@ -69,7 +70,7 @@ else
         dropItem.Item.WasRecentlyDropped = false;
     }
 
-    private void ItemPicked(MudDragAndDropItemTransaction<User> dropItem)
+    private void ItemPicked(MudDragAndDropItemTransaction<UserModel> dropItem)
     {
         if (dropItem.Item == null)
             return;
