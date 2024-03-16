@@ -13,9 +13,21 @@ else
         @foreach (var user in users)
         {
             <div class="user">
-                <MudAvatar Color="Color.Primary">M</MudAvatar>
-                @user.Name
-                @user.City
+                <div class="main-user-data p-2">
+                    <div class="w-100 avatar-wrapper">
+                        <MudAvatar Color="Color.Primary" Size="Size.Large" Class="mx-auto m-2">
+                            <MudImage Src="@user.Photo"></MudImage>
+                        </MudAvatar>
+                    </div>
+                    <div class="text-center m-2">
+                        @user.Name
+                    </div>
+                </div>
+                <div class="text-center city p-2">
+                    <div class="mx-auto">
+                        <div class="d-flex flex-row align-items-center"><MudIcon Icon="@Icons.Material.Outlined.LocationOn" Size="Size.Small"></MudIcon> @user.City</div>
+                    </div>
+                </div>
             </div>
         }
     </div>
