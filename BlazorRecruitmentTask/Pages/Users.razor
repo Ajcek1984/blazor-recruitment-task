@@ -95,7 +95,7 @@ else
         if (newGroup != null)
             history.Add(new HistoryEntryModel { Icon = newGroup.Icon, Message = $"Użytkownik {dropItem.Item.Name} został dodany do grupy {newGroup.Name}." });
 
-        var usersToMove = users
+        var usersToMove = users!
             .Where(u => u.IsSelected && ((currentGroup != null && u.Group == currentGroup.Identifier) || (currentGroup == null && u.Group == UserService.UnasssignedUsersGroup)))
             .Union(new[] { dropItem.Item })
             .Distinct()
@@ -104,8 +104,18 @@ else
         await MoveToGroupAsync(usersToMove, dropItem.DropzoneIdentifier, dropItem.IndexInZone);
     }
 
+    /// <summary>
+    /// Przenosi użytkowników do grupy.
+    /// </summary>
+    /// <param name="movedUsers">Użytkownicy do przeniesienia</param>
+    /// <param name="groupIdentifier">Identyfikator grupy</param>
+    /// <param name="index">Indeks, pod który przenosimy</param>
+    /// <returns>Promesa operacji asynchronicznej</returns>
     private async Task MoveToGroupAsync(IEnumerable<UserModel> movedUsers, string groupIdentifier, int index)
     {
+        if (users == null)
+            return;
+
         var i = 0;
         foreach (var user in users.Where(u => u.Group == groupIdentifier && !movedUsers.Contains(u)))
             user.Order = i++;
@@ -114,16 +124,22 @@ else
 
         foreach (var user in movedUsers) {
             user.Group = groupIdentifier;
-            user.WasRecentlyDropped = true;
+            user.WasRecentlyDropped = true; //W ten sposób nadajemy klasę css, która uruchamia animację
             user.IsSelected = false;
             user.Order = index++;
         }
         foreach (var user in usersOnHigherIndexes)
             user.Order = index++;
 
-        users = users.OrderBy(u => u.Group).ThenBy(u => u.Order).ToArray(); //Zapobiega samoczynnemu przestawianiu przy następnym refreshu
-        await Task.Delay(10);
+        //Sortujemy kolekcję, aby zapobiec samoczynnemu przestawianiu elementów przy następnym refreshu MudDropContainer:
+        users = users
+            .OrderBy(u => u.Group)
+            .ThenBy(u => u.Order)
+            .ToArray(); 
+        await Task.Delay(10);   //Opóźnienie Wymagane, żeby MudDropContainer poprawnie się odświeżył. Prawdopodobnie ma to związek z wewn. implementacją kontrolki, może z jakimiś skryptami JS.
         dropContainer.Refresh();
+
+        //Po upływie czasu animacji zdejmujemy flagę WasRecentlyDropped, która nadawała klasę css triggerującą animację:
         await Task.Delay(TimeSpan.FromSeconds(0.4));
         dropContainer.Refresh();
         foreach (var user in movedUsers)
@@ -140,10 +156,10 @@ else
         dropItem.Item.WasRecentlyDropped = false;
     }
 
-    private async void SelectUser(MouseEventArgs args, UserModel user)
+    private void SelectUser(MouseEventArgs args, UserModel user)
     {
         if (!args.ShiftKey) {
-            foreach (var u in users)
+            foreach (var u in users!)
                 u.IsSelected = false;
         }
 
